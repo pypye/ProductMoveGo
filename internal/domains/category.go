@@ -1,4 +1,4 @@
-package types
+package domains
 
 type Categories []Category
 

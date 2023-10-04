@@ -3,22 +3,21 @@ package main
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"log"
-	dbhandler2 "product_move/internal/adapter/db_handler"
-	"product_move/internal/adapter/server_handler"
+	"product_move/internal/controllers"
+	"product_move/internal/infrastructure"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile | log.Lmsgprefix)
-	db, err := dbhandler2.NewMySqlStore()
+	infrastructure.NewInjector()
+	db, err := infrastructure.NewDatabase()
 	if err != nil {
 		log.Fatal(err)
 	}
-	server, err := server_handler.NewAPIServer(8080, db)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = server.Run()
+	infrastructure.InitDB(db)
+	infrastructure.InitServer(infrastructure.NewServer())
+	controllers.NewCategoryController().Build()
+	err = infrastructure.GetServer().Run(":8080")
 	if err != nil {
 		log.Fatal(err)
 	}
