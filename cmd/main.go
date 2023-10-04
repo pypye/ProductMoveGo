@@ -17,6 +17,7 @@ func main() {
 	infrastructure.InitDB(db)
 	infrastructure.InitServer(infrastructure.NewServer())
 	controllers.NewCategoryController().Build()
+	controllers.NewAuthController().Build()
 	err = infrastructure.GetServer().Run(":8080")
 	if err != nil {
 		log.Fatal(err)
