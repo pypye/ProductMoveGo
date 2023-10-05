@@ -1,26 +1,22 @@
 package infrastructure
 
 import (
-	"database/sql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type Database struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
-func NewDatabase() (*Database, error) {
-	db, err := sql.Open("mysql", "root:password@(localhost:3306)/product_move")
+func NewDatabase() *Database {
+	db, err := gorm.Open(mysql.Open("root:password@(localhost:3306)/product_move"))
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-
-	if err := db.Ping(); err != nil {
-		return nil, err
-	}
-
-	return &Database{db: db}, nil
+	return &Database{db: db}
 }
 
-func (d *Database) Query(query string, args ...any) (*sql.Rows, error) {
-	return d.db.Query(query, args...)
+func (d *Database) Get() *gorm.DB {
+	return d.db
 }

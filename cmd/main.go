@@ -10,15 +10,11 @@ import (
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile | log.Lmsgprefix)
 	infrastructure.NewInjector()
-	db, err := infrastructure.NewDatabase()
-	if err != nil {
-		log.Fatal(err)
-	}
-	infrastructure.InitDB(db)
+	infrastructure.InitDB(infrastructure.NewDatabase())
 	infrastructure.InitServer(infrastructure.NewServer())
 	controllers.NewCategoryController().Build()
 	controllers.NewAuthController().Build()
-	err = infrastructure.GetServer().Run(":8080")
+	err := infrastructure.GetServer().Run(":8080")
 	if err != nil {
 		log.Fatal(err)
 	}

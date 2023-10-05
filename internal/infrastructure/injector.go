@@ -1,9 +1,8 @@
 package infrastructure
 
 type Injector struct {
-	db     *Database
-	server *Server
-	any    map[string]interface{}
+	Db     *Database
+	Server *Server
 }
 
 var instance *Injector
@@ -16,25 +15,17 @@ func NewInjector() *Injector {
 }
 
 func InitDB(db *Database) {
-	instance.db = db
+	instance.Db = db
 }
 
 func InitServer(server *Server) {
-	instance.server = server
-}
-
-func Init(key string, value interface{}) {
-	instance.any[key] = value
+	instance.Server = server
 }
 
 func GetServer() *Server {
-	return instance.server
+	return instance.Server
 }
 
 func GetDB() *Database {
-	return instance.db
-}
-
-func Get(key string) interface{} {
-	return instance.any[key]
+	return instance.Db
 }

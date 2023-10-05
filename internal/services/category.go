@@ -9,7 +9,7 @@ type CategoryService struct {
 	CategoryRep repositories.CategoryRepository
 }
 
-func (c *CategoryService) FindAll() (domains.Categories, error) {
+func (c *CategoryService) FindAll() ([]domains.Category, error) {
 	return c.CategoryRep.FindAll()
 }
 

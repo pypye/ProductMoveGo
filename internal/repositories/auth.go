@@ -1,7 +1,10 @@
 package repositories
 
 import (
-	"database/sql"
+	"errors"
+	"gorm.io/gorm"
+	"product_move/internal/domains"
+	"product_move/internal/exceptions"
 	"product_move/internal/infrastructure"
 )
 
@@ -12,17 +15,14 @@ type AuthInterface interface {
 type AuthRepository struct {
 }
 
-func (a *AuthRepository) Login(username string, password string) (bool, error) {
-	rows, err := infrastructure.GetDB().Query("SELECT * FROM auth WHERE username = ? AND password = ?", username, password)
+func (a *AuthRepository) Login(request domains.AuthRequest) (bool, error) {
+	db := infrastructure.GetDB().Get()
+	err := db.Where("username = ? AND password = ?", request.Username, request.Password).First(&request).Error
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, &exceptions.WrongIdentityError{}
+		}
 		return false, err
 	}
-	defer func(rows *sql.Rows) {
-		_ = rows.Close()
-	}(rows)
-
-	if rows.Next() {
-		return true, nil
-	}
-	return false, nil
+	return true, nil
 }

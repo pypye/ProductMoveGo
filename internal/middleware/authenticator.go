@@ -3,7 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"product_move/internal/errors"
+	"product_move/internal/exceptions"
 	"product_move/internal/helpers"
 	"strings"
 	"time"
@@ -29,7 +29,7 @@ func GenerateAuthToken(username string, duration time.Duration) (string, error) 
 func Authenticate(ctx *gin.Context) {
 	tokenString := ctx.GetHeader("Authorization")
 	if tokenString == "" {
-		helpers.WriteError(ctx, 401, &errors.UnauthorizedError{})
+		helpers.WriteError(ctx, &exceptions.UnauthorizedError{})
 		return
 	}
 	tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
@@ -37,11 +37,11 @@ func Authenticate(ctx *gin.Context) {
 		return []byte("secret"), nil
 	})
 	if err != nil {
-		helpers.WriteError(ctx, 401, err)
+		helpers.WriteError(ctx, err)
 		return
 	}
 	if !token.Valid {
-		helpers.WriteError(ctx, 401, &errors.UnauthorizedError{})
+		helpers.WriteError(ctx, &exceptions.UnauthorizedError{})
 		return
 	}
 	ctx.Next()

@@ -39,12 +39,12 @@ func (c *CategoryController) IndexHandler(ctx *gin.Context) {
 func (c *CategoryController) FindByIdHandler(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		helpers.WriteError(ctx, http.StatusBadRequest, err)
+		helpers.WriteError(ctx, err)
 		return
 	}
 	category, err := c.categoryService.FindById(id)
 	if err != nil {
-		helpers.WriteError(ctx, http.StatusInternalServerError, err)
+		helpers.WriteError(ctx, err)
 		return
 	}
 	helpers.Write(ctx, http.StatusOK, category)
