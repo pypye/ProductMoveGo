@@ -28,7 +28,7 @@ func (c *CategoryController) Build() {
 }
 
 func (c *CategoryController) IndexHandler(ctx *gin.Context) {
-	categories, err := c.categoryService.FindAll()
+	categories, err := c.categoryService.FindAll(ctx.Request)
 	if err != nil {
 		helpers.Write(ctx, http.StatusInternalServerError, err)
 		return
