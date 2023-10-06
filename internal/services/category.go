@@ -3,7 +3,7 @@ package services
 import (
 	"net/http"
 	"product_move/internal/domains"
-	"product_move/internal/modules/paginate"
+	"product_move/internal/modules/pa"
 	"product_move/internal/repositories"
 )
 
@@ -11,7 +11,7 @@ type CategoryService struct {
 	CategoryRep repositories.CategoryRepository
 }
 
-func (c *CategoryService) FindAll(r *http.Request) (paginate.Paging[[]domains.Category], error) {
+func (c *CategoryService) FindAll(r *http.Request) (pa.Response[domains.Category], error) {
 	return c.CategoryRep.FindAll(r)
 }
 

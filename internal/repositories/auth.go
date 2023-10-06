@@ -22,8 +22,7 @@ func matchingIdentity(request domains.AuthRequest) func(db *gorm.DB) *gorm.DB {
 }
 
 func (a *AuthRepository) Login(request domains.AuthRequest) (bool, error) {
-	db := infrastructure.GetDB().Get()
-	err := db.Scopes(matchingIdentity(request)).First(&request).Error
+	err := infrastructure.GetDB().Scopes(matchingIdentity(request)).First(&request).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return false, &exceptions.WrongIdentityError{}

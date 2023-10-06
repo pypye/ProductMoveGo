@@ -1,5 +1,10 @@
 package infrastructure
 
+import (
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+)
+
 type Injector struct {
 	Db     *Database
 	Server *Server
@@ -22,10 +27,10 @@ func InitServer(server *Server) {
 	instance.Server = server
 }
 
-func GetServer() *Server {
-	return instance.Server
+func GetServer() *gin.Engine {
+	return instance.Server.Get()
 }
 
-func GetDB() *Database {
-	return instance.Db
+func GetDB() *gorm.DB {
+	return instance.Db.Get()
 }
