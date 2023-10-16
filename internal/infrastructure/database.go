@@ -1,6 +1,8 @@
 package infrastructure
 
 import (
+	"fmt"
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -10,7 +12,13 @@ type Database struct {
 }
 
 func NewDatabase() *Database {
-	db, err := gorm.Open(mysql.Open("root:password@(localhost:3306)/product_move"))
+	db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@(%s:%d)/%s",
+		viper.Get("database.username"),
+		viper.Get("database.password"),
+		viper.Get("database.host"),
+		viper.Get("database.port"),
+		viper.Get("database.schema"),
+	)))
 	if err != nil {
 		panic(err)
 	}

@@ -9,7 +9,11 @@ import (
 )
 
 type AuthService struct {
-	AuthRep repositories.AuthRepository
+	AuthRep *repositories.AuthRepository
+}
+
+func NewAuthService() *AuthService {
+	return &AuthService{AuthRep: repositories.NewAuthRepository()}
 }
 
 func (a *AuthService) Login(request domains.AuthRequest) (*domains.AuthResponse, error) {

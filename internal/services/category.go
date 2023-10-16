@@ -8,7 +8,11 @@ import (
 )
 
 type CategoryService struct {
-	CategoryRep repositories.CategoryRepository
+	CategoryRep *repositories.CategoryRepository
+}
+
+func NewCategoryService() *CategoryService {
+	return &CategoryService{CategoryRep: repositories.NewCategoryRepository()}
 }
 
 func (c *CategoryService) FindAll(r *http.Request) (pa.Response[domains.Category], error) {

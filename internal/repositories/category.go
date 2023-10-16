@@ -15,6 +15,10 @@ type CategoryInterface interface {
 type CategoryRepository struct {
 }
 
+func NewCategoryRepository() *CategoryRepository {
+	return &CategoryRepository{}
+}
+
 func (c *CategoryRepository) FindAll(r *http.Request) (pa.Response[domains.Category], error) {
 	var categories []domains.Category
 	infrastructure.GetDB().Scopes(

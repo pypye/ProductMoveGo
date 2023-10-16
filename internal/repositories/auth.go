@@ -15,6 +15,10 @@ type AuthInterface interface {
 type AuthRepository struct {
 }
 
+func NewAuthRepository() *AuthRepository {
+	return &AuthRepository{}
+}
+
 func matchingIdentity(request domains.AuthRequest) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where("username = ? AND password = ?", request.Username, request.Password)

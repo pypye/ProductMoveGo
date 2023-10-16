@@ -5,21 +5,16 @@ import (
 	"net/http"
 	"product_move/internal/helpers"
 	"product_move/internal/infrastructure"
-	"product_move/internal/repositories"
 	"product_move/internal/services"
 	"strconv"
 )
 
 type CategoryController struct {
-	categoryService services.CategoryService
+	categoryService *services.CategoryService
 }
 
 func NewCategoryController() *CategoryController {
-	return &CategoryController{
-		categoryService: services.CategoryService{
-			CategoryRep: repositories.CategoryRepository{},
-		},
-	}
+	return &CategoryController{categoryService: services.NewCategoryService()}
 }
 
 func (c *CategoryController) Build() {

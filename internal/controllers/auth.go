@@ -5,20 +5,15 @@ import (
 	"product_move/internal/domains"
 	"product_move/internal/helpers"
 	"product_move/internal/infrastructure"
-	"product_move/internal/repositories"
 	"product_move/internal/services"
 )
 
 type AuthController struct {
-	authService services.AuthService
+	authService *services.AuthService
 }
 
 func NewAuthController() *AuthController {
-	return &AuthController{
-		authService: services.AuthService{
-			AuthRep: repositories.AuthRepository{},
-		},
-	}
+	return &AuthController{authService: services.NewAuthService()}
 }
 
 func (a *AuthController) Build() {

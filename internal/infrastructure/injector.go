@@ -19,12 +19,12 @@ func NewInjector() *Injector {
 	return instance
 }
 
-func InitDB(db *Database) {
-	instance.Db = db
+func InitDB() {
+	instance.Db = NewDatabase()
 }
 
-func InitServer(server *Server) {
-	instance.Server = server
+func InitServer() {
+	instance.Server = NewServer()
 }
 
 func GetServer() *gin.Engine {
